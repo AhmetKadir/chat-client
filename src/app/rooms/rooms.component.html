@@ -1,0 +1,50 @@
+<div class="page-wrapper">
+  <section class="room-creation">
+    <h2 class="section-title">Welcome, {{ user?.name || 'Guest' }}!</h2>
+    <h3 class="section-subtitle">Available Rooms</h3>
+    <button
+      type="button"
+      (click)="createRoom()"
+      data-cy="create-room"
+      class="btn-create"
+      [disabled]="isLoading">
+      <span *ngIf="isLoading">Creating...</span>
+      <span *ngIf="!isLoading">Create New Room</span>
+    </button>
+    <!--    refresh button-->
+    <button
+      type="button"
+      (click)="getRooms()"
+      class="pi pi-refresh" style="color: #fff; font-size: 1.5rem; margin-left: 1rem;"
+      [disabled]="isLoading">
+    </button>
+  </section>
+
+  <div class="rooms-container">
+    <div
+      *ngFor="let room of rooms"
+      class="room-card"
+      data-cy="room">
+      <div class="room-details">
+        <h3 class="room-name">{{ room.name }}</h3>
+        <p class="room-capacity">
+          {{ room.numberOfUsers }} / {{ room.roomCapacity }} users
+        </p>
+      </div>
+      <button
+        type="button"
+        (click)="enterRoom(room.id)"
+        data-cy="join-room"
+        class="btn-join"
+        [disabled]="isLoading || room.numberOfUsers >= room.roomCapacity">
+        {{ room.numberOfUsers >= room.roomCapacity ? 'Full' : 'Join Room' }}
+      </button>
+    </div>
+    <div *ngIf="rooms.length === 0 && !isLoading" class="no-rooms">
+      <p>No rooms available yet. Create one to get started!</p>
+    </div>
+    <div *ngIf="isLoading" class="loading">
+      <p>Loading rooms...</p>
+    </div>
+  </div>
+</div>

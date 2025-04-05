@@ -1,0 +1,57 @@
+<div class="page-wrapper">
+
+  <!--  header section -->
+  <section class="messages-header">
+    <h2 class="section-title">Room: {{ room?.name || 'Loading...' }}</h2>
+    <p class="user-greeting">Welcome, {{ user?.name || 'Guest' }}!</p>
+    <button
+      type="button"
+      (click)="leaveRoom()"
+      class="btn-leave"
+      aria-label="Leave room">
+      Leave Room
+    </button>
+  </section>
+
+  <!--  messages section -->
+  <div class="messages-container" #scroll>
+    <div class="messages-list">
+      <div
+        *ngFor="let message of messages"
+        class="message"
+        [ngClass]="{'current-user': isCurrentUser(message.userId), 'other-user': !isCurrentUser(message.userId)}"
+        data-cy="message">
+        <div class="bubble">
+          <div *ngIf="!isCurrentUser(message.userId)" class="user-name">{{ message.userName }}</div>
+          <div class="message-content">
+            <span class="message-text">{{ message.text }}</span>
+            <span class="message-date">
+              {{ message.createdDate | date: (isToday(message.createdDate) ? 'HH:mm' : 'dd MMM yyyy') }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="messages.length === 0" class="no-messages">
+        <p>No messages yet. Start the conversation!</p>
+      </div>
+    </div>
+  </div>
+
+  <!--  message form -->
+  <form (ngSubmit)="send()" class="message-form" data-cy="message-form">
+    <input
+      [formControl]="messageControl"
+      type="text"
+      placeholder="Type your message..."
+      class="message-input"
+      aria-label="Message input">
+    <button
+      type="submit"
+      [disabled]="!messageControl.value.trim()"
+      class="send-button"
+      aria-label="Send message">
+      Send
+    </button>
+  </form>
+
+</div>

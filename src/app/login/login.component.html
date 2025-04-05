@@ -1,0 +1,20 @@
+<div class="login-container">
+  <div class="login-box">
+    <h1>Welcome to the Chat</h1>
+    <form (ngSubmit)="activateUser()" class="form-container">
+      <div class="input-group">
+        <input
+          id="username"
+          [formControl]="userName"
+          placeholder="Your Name"
+          type="text"
+          autocomplete="off">
+      </div>
+      <button
+        type="submit"
+        [disabled]="!userName.value.trim() || isLoading">
+        {{ isLoading ? 'Activating...' : 'Join Now' }}
+      </button>
+    </form>
+  </div>
+</div>

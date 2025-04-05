@@ -1,0 +1,10 @@
+TODOS
+- MUST siteden cikildiginda odadan da cikilmali
+- refresh butonu daha guzel olabilir
+- oda bilgileri otomatik guncellenmeli.
+- alert yerine modal kullanilabilir
+- join room yerine oda ustune tiklandiginda odaya girilmeli
+- oda icerisinde kac kisi oldugunu goster
+- oda icerisine yeni katilanlari goster
+- oda icerisindeki kisileri goster
+- user bilgisini cookie ye kaydet boylece her sayfada login olmasina gerek kalmaz

@@ -1,0 +1,120 @@
+.room-creation {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-title {
+  font-size: 2.4rem;
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-subtitle {
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 25px;
+  font-weight: 400;
+}
+
+.btn-create {
+  padding: 14px 35px;
+  font-size: 1.2rem;
+  color: white;
+  background: #ff6b6b;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-create:hover:not(:disabled) {
+  background: #e65a5a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.btn-create:disabled {
+  background: #b2bec3;
+  cursor: not-allowed;
+}
+
+.rooms-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1240px;
+}
+
+.room-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.room-details {
+  flex-grow: 1;
+}
+
+.room-name {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+  font-weight: 500;
+}
+
+.room-capacity {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.btn-join {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  color: white;
+  background: #6b48ff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-join:hover:not(:disabled) {
+  background: #5439cc;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.btn-join:disabled {
+  background: #b2bec3;
+  cursor: not-allowed;
+}
+
+.no-rooms {
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  padding: 20px;
+}
+
+.loading {
+  text-align: center;
+  color: white;
+  font-size: 1.2rem;
+  padding: 20px;
+}
