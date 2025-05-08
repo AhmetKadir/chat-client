@@ -14,9 +14,11 @@ export class UserService {
   private server = environment.server;
 
   constructor(private http: HttpClient) {
+    console.log('UserService server URL:', this.server);
   }
 
   getUser(name: string) {
+    console.log('Fetching user from:', `${this.server}/users`);
     return this.http.post<User>(`${this.server}/users`, {name});
   }
 

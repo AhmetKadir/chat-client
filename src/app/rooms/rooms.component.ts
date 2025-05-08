@@ -62,14 +62,20 @@ export class RoomsComponent implements OnInit {
     if (!roomName || !roomName.trim()) return;
     this.isLoading = true;
 
+    let roomCreated = false;
+
     try {
       this.user = await this.roomService.create(this.user.id, roomName.trim());
-      await this.router.navigate(['/messages', this.user.roomId]);
+      roomCreated = true;
     } catch (error) {
       console.error('Error creating room:', error);
       alert('Failed to create room. Please try again.');
+      await this.router.navigate(['/rooms']);
     } finally {
       this.isLoading = false;
+    }
+    if (roomCreated) {
+      await this.router.navigate(['/messages', this.user.roomId]);
     }
   }
 

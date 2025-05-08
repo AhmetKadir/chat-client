@@ -28,14 +28,14 @@ import {RoomService} from "../rooms/room.service";
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('scroll') scrollContainer: ElementRef;
+  @ViewChild('scroll') scrollContainer!: ElementRef;
 
   messages: Message[] = [];
   messageControl = new FormControl<string>('', {nonNullable: true});
-  websocketClient: Client;
   protected roomId: string | null = null;
   room: Room | null = null;
   user: User | null = null;
+  private websocketClient!: Client;
 
   private hasLeftRoom: boolean = false;
 
@@ -45,7 +45,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
     private roomService: RoomService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
   }
 

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {lastValueFrom, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {Room} from "./room";
@@ -28,12 +28,16 @@ export class RoomService {
   }
 
   create(userId: string, roomName: string): Promise<User> {
-    let params = new HttpParams().set("userId", userId).set("roomName", roomName);
-    return lastValueFrom(this.http.post<User>(`${this.server}/rooms`, null, {params}));
+    //todo fix this
+    const body = {
+      roomName: roomName,
+      userId: userId
+    }
+
+    return lastValueFrom(this.http.post<User>(`${this.server}/rooms`, body));
   }
 
   enterRoom(userId: string, roomId: string): Observable<void> {
-    const params = new HttpParams().set('userId', userId).set('roomId', roomId);
-    return this.http.put<void>(`${this.server}/users/${userId}/rooms/${roomId}`, null, {params});
+    return this.http.put<void>(`${this.server}/users/${userId}/rooms/${roomId}`, {});
   }
 }

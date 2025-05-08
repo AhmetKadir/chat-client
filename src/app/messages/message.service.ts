@@ -42,7 +42,6 @@ export class MessageService {
     );
   }
 
-  // Send a message with full Message interface
   send(message: Message): Promise<Message> {
     return lastValueFrom(
       this.http.post<Message>(`${this.server}/messages/new`, message)
