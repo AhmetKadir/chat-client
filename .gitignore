@@ -47,3 +47,16 @@ Thumbs.db
 /.angular/
 /cypress/videos/app.component.cy.ts.mp4
 /cypress/videos/messages/message.component.cy.ts.mp4
+
+# Maven
+target/
+*.jar
+*.lst
+*.log
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE
+.idea/
+*.iml
