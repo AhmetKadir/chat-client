@@ -101,6 +101,8 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
   private connect(): void {
     if (!this.roomId) return;
 
+    console.log('websocket url :', environment.webSocket);
+
     this.websocketClient = new Client({
       brokerURL: environment.webSocket,
       reconnectDelay: 5000,
