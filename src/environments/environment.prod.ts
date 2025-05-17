@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  server: 'https://34.105.61.164:8080', // Hardcode or replace during build
-  webSocket: 'ws://34.105.61.164:8080/socket'
+  server: 'https://chat-api-292563502323.us-central1.run.app:8080', // Hardcode or replace during build
+  webSocket: 'ws://chat-api-292563502323.us-central1.run.app/socket'
   // server: process.env['BACKEND_URL'],
   // webSocket: `${process.env['BACKEND_URL']?.replace('http', 'ws')}/socket`
 };
