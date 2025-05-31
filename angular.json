@@ -15,11 +15,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-  "builder": "@angular-devkit/build-angular:browser",
+  "builder": "@angular-devkit/build-angular:application",
   "options": {
-    "outputPath": "dist/angular-chat",
+    "outputPath": {
+      "base": "dist/angular-chat"
+    },
     "index": "src/index.html",
-    "main": "src/main.ts",
     "polyfills": ["src/polyfills.ts"],
     "tsConfig": "tsconfig.app.json",
     "aot": true,
@@ -28,7 +29,8 @@
       "src/assets"
     ],
     "styles": ["src/styles.scss"],
-    "scripts": []
+    "scripts": [],
+    "browser": "src/main.ts"
   },
   "configurations": {
     "production": {
@@ -113,5 +115,31 @@
   },
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }
