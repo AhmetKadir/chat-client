@@ -32,7 +32,6 @@ export class RoomsComponent implements OnInit {
       void this.router.navigate(['/login']);
       return;
     }
-    console.log('User:', this.user);
     void this.getRooms();
   }
 

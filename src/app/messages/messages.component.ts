@@ -19,6 +19,7 @@ import {Client} from '@stomp/stompjs';
 import {CommonModule, DatePipe} from '@angular/common';
 import {Room} from "../rooms/room";
 import {RoomService} from "../rooms/room.service";
+import {NotificationService} from "../notification/notification.service";
 
 @Component({
   selector: 'app-messages',
@@ -46,20 +47,21 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {
   }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
     if (!this.user) {
-      alert('Please log in');
+      this.notificationService.showNotf('You must be logged in to access messages.');
       void this.router.navigate(['/login']);
       return;
     }
 
     this.roomId = this.route.snapshot.paramMap.get('roomId');
     if (!this.roomId) {
-      console.error('No room ID provided');
+      this.notificationService.showNotf();
       void this.router.navigate(['/rooms']);
       return;
     }
@@ -68,7 +70,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
       this.room = room;
     });
 
-    this.loadMessages().then(() => console.log('Messages loaded'));
+    void this.loadMessages();
     this.connect();
   }
 
@@ -85,34 +87,27 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private async loadMessages(): Promise<void> {
     try {
-      console.log('Loading messages for room', this.roomId);
       const messages = await this.messageService.getMessagesByRoomId(this.roomId!);
       this.messages = messages.map(msg => ({
         ...msg,
         createdDate: new Date(msg.createdDate)
       }));
-      console.log('Messages loaded:', this.messages);
       this.scrollToBottom();
     } catch (error) {
-      console.error('Error loading messages:', error);
+
     }
   }
 
   private connect(): void {
     if (!this.roomId) return;
 
-    console.log('websocket url :', environment.webSocket);
-
     this.websocketClient = new Client({
       brokerURL: environment.webSocket,
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
-      debug: (str) => console.log('WebSocket Debug:', str),
       onConnect: () => {
-        console.log('WebSocket connected to room:', this.roomId);
         this.websocketClient.subscribe(`/chat/${this.roomId}`, (frame) => {
-          console.log('New message received:', frame.body);
           const message: Message = JSON.parse(frame.body);
           this.messages.push({
             ...message,
@@ -122,11 +117,10 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
           this.scrollToBottom();
         });
       },
-      onStompError: (frame) => {
-        console.error('WebSocket error:', frame);
+      onStompError: () => {
+        this.notificationService.showNotf();
       },
       onDisconnect: () => {
-        console.log('WebSocket disconnected');
         if (!this.hasLeftRoom) {
           void this.leaveRoom();
         }
@@ -137,8 +131,8 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private disconnect(): void {
     this.websocketClient?.deactivate()
-      .then(() => console.log(`Disconnected from room ${this.roomId}`))
-      .catch(error => console.error('Disconnect error:', error));
+      .then(() => this.notificationService.showNotf('Disconnected from the chat.'))
+      .catch(() => this.notificationService.showNotf());
   }
 
   send(): void {
@@ -159,7 +153,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.messageControl.reset();
         this.scrollToBottom();
       })
-      .catch(error => console.error('Send message error:', error));
+      .catch(() => this.notificationService.showNotf());
   }
 
   isToday(date: Date): boolean {
@@ -189,7 +183,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
       await this.messageService.leaveRoom(this.user.id, this.roomId);
       this.disconnect();
     } catch (error) {
-      console.error('Error leaving room:', error);
+      this.notificationService.showNotf();
       this.disconnect();
     } finally {
       void this.router.navigate(['/rooms']);
