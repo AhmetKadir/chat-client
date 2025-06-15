@@ -5,6 +5,7 @@ import {UserService} from '../user/user.service';
 import {User} from '../user/user.interface';
 import {Room} from './room';
 import {CommonModule} from '@angular/common';
+import {NotificationService} from "../notification/notification.service";
 
 @Component({
   selector: 'app-rooms',
@@ -21,7 +22,8 @@ export class RoomsComponent implements OnInit {
   constructor(
     private roomService: RoomService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -35,6 +37,7 @@ export class RoomsComponent implements OnInit {
     void this.getRooms();
   }
 
+
   async getRooms(): Promise<void> {
     this.isLoading = true;
     try {
@@ -43,10 +46,10 @@ export class RoomsComponent implements OnInit {
         ...room
       }));
     } catch (error) {
-      console.error('Error fetching rooms:', error);
       alert('Failed to load rooms. Please try again later.');
     } finally {
       this.isLoading = false;
+      this.notificationService.showNotf('Rooms loaded');
     }
   }
 

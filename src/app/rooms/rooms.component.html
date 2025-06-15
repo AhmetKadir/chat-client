@@ -1,22 +1,21 @@
 <div class="page-wrapper">
   <section class="room-creation">
     <h2 class="section-title">Welcome, {{ user?.name || 'Guest' }}!</h2>
-    <h3 class="section-subtitle">Available Rooms</h3>
     <button
       type="button"
       (click)="createRoom()"
       data-cy="create-room"
       class="btn-create"
       [disabled]="isLoading">
-      <span *ngIf="isLoading">Creating...</span>
-      <span *ngIf="!isLoading">Create New Room</span>
+      <span>Create New Room</span>
     </button>
-    <!--    refresh button-->
+    <!-- Refresh button -->
     <button
       type="button"
       (click)="getRooms()"
-      class="pi pi-refresh" style="color: #fff; font-size: 1.5rem; margin-left: 1rem;"
+      class="btn-create btn-refresh"
       [disabled]="isLoading">
+      <i class="pi pi-refresh"></i>
     </button>
   </section>
 
@@ -42,9 +41,6 @@
     </div>
     <div *ngIf="rooms.length === 0 && !isLoading" class="no-rooms">
       <p>No rooms available yet. Create one to get started!</p>
-    </div>
-    <div *ngIf="isLoading" class="loading">
-      <p>Loading rooms...</p>
     </div>
   </div>
 </div>

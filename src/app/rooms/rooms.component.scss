@@ -112,9 +112,15 @@
   padding: 20px;
 }
 
-.loading {
-  text-align: center;
-  color: white;
-  font-size: 1.2rem;
-  padding: 20px;
+.btn-refresh {
+  margin-left: 1rem;
+  padding: 0.5rem;
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  i.pi-refresh {
+    font-size: 1.2rem;
+  }
 }
+

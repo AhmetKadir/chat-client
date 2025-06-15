@@ -55,4 +55,11 @@ export class MessageService {
     );
   }
 
+  leaveRoomSync(userId: string, roomId: string): void {
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', `${this.server}/users/${userId}/rooms/${roomId}`, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({ roomId }));
+  }
+
 }

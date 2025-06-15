@@ -79,9 +79,19 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:beforeunload')
-  async ngOnDestroy() {
+  beforeUnloadHandler() {
+    alert('You are about to leave the chat.');
+    if (this.websocketClient && this.websocketClient.connected) {
+      this.disconnect();
+    }
     if (!this.hasLeftRoom) {
-      await this.leaveRoom();
+      this.leaveRoom();
+    }
+  }
+
+  ngOnDestroy() {
+    if (!this.hasLeftRoom) {
+      void this.leaveRoom();
     }
   }
 
@@ -109,6 +119,11 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
       onConnect: () => {
         this.websocketClient.subscribe(`/chat/${this.roomId}`, (frame) => {
           const message: Message = JSON.parse(frame.body);
+          if (message.userId === 'SYSTEM' && message.text === 'ROOM_DELETED') {
+            this.notificationService.showNotf('The room has been deleted.');
+            void this.router.navigate(['/rooms']);
+            return;
+          }
           this.messages.push({
             ...message,
             createdDate: new Date(message.createdDate)
@@ -175,17 +190,16 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  async leaveRoom(): Promise<void> {
+   leaveRoom() {
     if (!this.user?.id || !this.roomId) return;
 
     try {
       this.hasLeftRoom = true;
-      await this.messageService.leaveRoom(this.user.id, this.roomId);
-      this.disconnect();
+      this.messageService.leaveRoomSync(this.user.id, this.roomId);
     } catch (error) {
       this.notificationService.showNotf();
-      this.disconnect();
     } finally {
+      this.disconnect();
       void this.router.navigate(['/rooms']);
     }
   }
